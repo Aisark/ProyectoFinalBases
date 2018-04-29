@@ -1,0 +1,54 @@
+GENERAL: tener un logout y redireccionar a landingPage
+landingPage
+    register: agrega usuarios alv y crea sesion con usuario registran, redirect a menu 
+    login: query user,pwd -> return true & token 
+        if normal user: 
+            menu: 
+                ver productos: jala todos los productos 
+                    ver/filtrar jabones:
+                        seleccionar producto:
+                            modificar cantidad -> añadir a carrito 
+                    ver/filtrar aceites:
+                        seleccionar producto:
+                            modificar cantidad -> añadir a carrito 
+                    ver/filtrar cremas:
+                        seleccionar producto:
+                            modificar cantidad -> añadir a carrito 
+                    ver/filtrar tonicos:
+                        seleccionar producto:
+                            modificar cantidad -> añadir a carrito 
+                    ver/filtrar otros:
+                        seleccionar producto:
+                            modificar cantidad -> añadir a carrito 
+                ver carrito de compras:
+                    editar carrito 
+                        modificar cantidad de producto 
+                        eliminar producto 
+                    realizar pedido 
+                ver envios:
+                    ver info de pedido:                
+                        si existe envio con id de pedido   
+                            if true 
+                                mostrar info de envio 
+                            else 
+                                mostrar "pedido no enviado"
+                                mostrar posibilidad de cancelar envio 
+                ver info: 
+                    info: editar info: update info
+        else (admin):
+            menu: info de usuarios como table:
+                nombre usuario 
+                tipo usuario 
+                info adicional
+                    info usuario:
+                        borrar 
+                        editar 
+                borrar
+            
+            crud productos:
+                same shit 
+
+            checar envios:
+                lista pedidos:
+                    ver pedido 
+                        actualizar estado
