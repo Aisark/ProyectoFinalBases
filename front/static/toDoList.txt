@@ -1,0 +1,53 @@
+FALTA:  crud usuario(admin), crud productos(admin), 'crud' envios(admin)
+No urge: registro, enchular landing
+
+GENERAL: tener un logout y redireccionar a landingPage
+landingPage: YA QUEDO!! :D FALTA ENCHURALRO PERO VALE VERGA
+    register: agrega usuarios alv y crea sesion con usuario registran, redirect a menu 
+    login: query user,pwd -> return true & token 
+        if normal user: 
+            menu: 
+                ver productos: jala todos los productos 
+                    ver/filtrar jabones:
+                        seleccionar producto:
+                            modificar cantidad -> añadir a carrito 
+                    ver/filtrar aceites:
+                        seleccionar producto:
+                            modificar cantidad -> añadir a carrito 
+                    ver/filtrar cremas:
+                        seleccionar producto:
+                            modificar cantidad -> añadir a carrito 
+                    ver/filtrar tonicos:
+                        seleccionar producto:
+                            modificar cantidad -> añadir a carrito 
+                    ver/filtrar otros:
+                        seleccionar producto:
+                            modificar cantidad -> añadir a carrito 
+                ver carrito de compras:
+                    editar carrito 
+                        modificar cantidad de producto 
+                        eliminar producto 
+                    realizar pedido /createOrder: recibe arreglo de productos, junto con costo total 
+                ver envios: /getOrdersAndShipments: recibo pedidos y envio de usuario
+                    mostrar: fecha de orden, costo total, estadoEnvio y fechaEnvio(si ha sido enviado, estadoEnvio = 2)
+                        ver detalle de pedido: mostrar productos del pedido. /getProductsFromOrder
+                            cancelar pedido si estadoEnvio = 1 (no enviado)
+                ver info: /getUserInfo
+                    info: editar info: update info
+        else (admin):
+            menu: info de usuarios como table:
+                nombre usuario 
+                tipo usuario 
+                info adicional
+                    info usuario:
+                        borrar 
+                        editar 
+                borrar
+            
+            crud productos:
+                same shit 
+
+            checar envios:
+                lista pedidos:
+                    ver pedido 
+                        actualizar estado
