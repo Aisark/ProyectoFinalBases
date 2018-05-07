@@ -47,12 +47,15 @@ app.get('/', function (req, res) {
 app.post('/validate', function (req, res) {
     return sequelize.query("select * from clientes where email = \"" + req.body.mail + "\"", { type: sequelize.QueryTypes.SELECT })
         .then(user => {
-            return sequelize.query("select pwd from clientes where id = " + user[0].id, { type: sequelize.QueryTypes.SELECT })
+            return sequelize.query("select * from clientes where id = " + user[0].id, { type: sequelize.QueryTypes.SELECT })
                 .then(pass => {
 
                     if (bcrypt.compareSync(req.body.pwd, pass[0].pwd)) {
                         var salt = bcrypt.genSaltSync(user[0].id);
-                        res.json({ "idUser": user[0].id, "token": salt , "typeUser": user[0].tipoCliente});
+                        user[0].token = salt
+                        res.json({"userInfo": user[0]})
+
+                        //res.json({ "idUser": user[0].id, "token": salt, "typeUser": user[0].tipoCliente });
                     }
                     else {
                         res.status(400).send("Invalid")
@@ -147,20 +150,20 @@ app.post('/generaPedido', function (req, res) {
 
 app.post('/actualizaInfo', function (req, res) {
     var idUser = req.body.user.id;
-    var name   = req.body.user.nombre;
-    var type   = req.body.user.tipoCliente;
-    var cel    = req.body.user.celular;
-    var mail  = req.body.user.email;
-    var pass   = req.body.user.pwd;
+    var name = req.body.user.nombre;
+    var type = req.body.user.tipoCliente;
+    var cel = req.body.user.celular;
+    var mail = req.body.user.email;
+    var pass = req.body.user.pwd;
 
     var idDireccion = req.body.user.direccionID;
-    var state       = req.body.user.estado;
-    var munic       = req.body.user.municipio;
-    var city        = req.body.user.ciudad;
-    var cp          = req.body.user.codigoPostal;
-    var col         = req.body.user.colonia;
-    var str         = req.body.user.calle;
-    
+    var state = req.body.user.estado;
+    var munic = req.body.user.municipio;
+    var city = req.body.user.ciudad;
+    var cp = req.body.user.codigoPostal;
+    var col = req.body.user.colonia;
+    var str = req.body.user.calle;
+
     var sql = "update direccionCliente set estado = ('" + state + "'), municipio = ('" + munic + "'), ciudad = ('" + city + "'), codigoPostal = ('" + cp + "'), colonia = ('" + col + "'), calle = ('" + str + "') where direccionCliente.id =" + idDireccion;
 
     return sequelize.query(sql, { type: sequelize.QueryTypes.UPDATE })
@@ -177,28 +180,39 @@ app.post('/actualizaInfo', function (req, res) {
 })
 
 app.post('/registraInfo', function (req, res) {
-    var name   = req.body.nombre;
-    var type   = req.body.tipoCliente;
-    var cel    = req.body.celular;
-    var mail  = req.body.email;
-    var pass   = req.body.pwd;
+    var name = req.body.nombre;
+    //var type   = req.body.tipoCliente;
+    var type = "3"
+    var cel = req.body.celular;
+    var mail = req.body.email;
+    var pass = req.body.pwd;
 
-    var state       = req.body.estado;
-    var munic       = req.body.municipio;
-    var city        = req.body.ciudad;
-    var cp          = req.body.codigoPostal;
-    var col         = req.body.colonia;
-    var str         = req.body.calle;
-    
+    var state = req.body.estado;
+    var munic = req.body.municipio;
+    var city = req.body.ciudad;
+    var cp = req.body.codigoPostal;
+    var col = req.body.colonia;
+    var str = req.body.calle;
+
+
     var sql = "insert into direccionCliente(estado,municipio,ciudad,codigoPostal,colonia,calle) values( '" + state + "', '" + munic + "', '" + city + "', '" + cp + "', '" + col + "', '" + str + "')";
 
-    return sequelize.query(sql, { type: sequelize.QueryTypes.UPDATE })
+    return sequelize.query(sql, { type: sequelize.QueryTypes.INSERT })
         .then(res1 => {
-            var sql = "insert into clientes(nombre,tipoCliente,celular,email,pwd) values( '" + name + "', '" + 3 + "', '" + cel + "', '" + mail + "', '" + pass + "')";
-
-            return sequelize.query(sql, { type: sequelize.QueryTypes.UPDATE })
+            sql = "select * from direccionCliente order by direccionCliente.id DESC LIMIT 1;"
+            return sequelize.query(sql, { type: sequelize.QueryTypes.SELECT })
                 .then(res2 => {
-                    res.json(res2)
+                    var direccionID = res2[0].id
+
+                    var salt = bcrypt.genSaltSync(direccionID);
+                    var hash = bcrypt.hashSync(pass, salt);
+                    sql = "insert into clientes(nombre,tipoCliente,celular,email,pwd,direccionID) values( '" + name + "', '" + type + "', '" + cel + "', '" + mail + "', '" + hash + "'," + direccionID + " )";
+
+                    return sequelize.query(sql, { type: sequelize.QueryTypes.INSERT })
+                        .then(res3 => {
+                            res.json(res3)
+                        })
+                        .catch(error => res.status(401).send(error))
                 })
                 .catch(error => res.status(401).send(error))
         })
@@ -237,39 +251,18 @@ app.post('/insertDireccion', function (req, res) {
         .catch(error => res.status(400).send(error))
 })
 
-app.post('/insertCliente', function (req, res) {
-    var name = req.body.nombre;
-    var tipo = req.body.tipoCliente;
-    var cel = req.body.celular;
-    var correo = req.body.email;
-    var pass = req.body.pwd;
 
-    var sql = "insert into clientes(nombre,tipoCliente,celular,email,pwd) values ('" + name + "',  '" + tipo + "', '" + cel + "', '" + correo + "', '" + pass + "')";
-
-    return sequelize.query(sql, { type: sequelize.QueryTypes.INSERT })
-        .then(resultado => res.status(201).send(resultado))
-        .catch(error => res.status(400).send(error))
-})
 
 
 
 //SELECTS - READ
-app.get('/selectProductos', function (req, res) {
-    return sequelize.query("select * from productos").spread((results, metadata) => {
-        res.json(results);
-    })
-})
 
-app.get('/selectDirecciones', function (req, res) {
-    return sequelize.query("select * from direccionCliente").spread((results, metadata) => {
-        res.json(results);
-    })
-})
-
-app.get('/selectClientes', function (req, res) {
-    return sequelize.query("select * from clientes").spread((results, metadata) => {
-        res.json(results);
-    })
+app.get('/getUsers', function (req, res) {
+    return sequelize.query("select clientes.id,clientes.nombre,clientes.tipoCliente,clientes.celular,clientes.email,clientes.pwd,clientes.direccionID,direccionCliente.estado ,direccionCliente.municipio ,direccionCliente.ciudad ,direccionCliente.codigoPostal ,direccionCliente.colonia ,direccionCliente.calle from clientes inner join direccionCliente on clientes.direccionID = direccionCliente.id", { type: sequelize.QueryTypes.SELECT })
+        .then(users => {
+            res.json(users);
+        })
+        .catch(error => res.status(400).send(error))
 })
 
 //UPDATES - EDIT
@@ -284,15 +277,14 @@ app.post('/updateEstadoEnvio', function (req, res) {
 })
 
 app.post('/updateProducto', function (req, res) {
-    var nombre = req.body.nombreProducto;
-    var descr = req.body.descripcion;
-    var tipo = req.body.tipoProducto;
-    var pPreferencial = req.body.precioPreferencial;
-    var pOcasional = req.body.precioOcasional;
-    var pPublico = req.body.precioPublico;
-    var img = req.body.imgPath;
-
-    var sql = "update productos set nombreProducto = ('" + nombre + "'), descripcion = ('" + descr + "'), tipoProducto = ('" + tipo + "'), precioPreferencial = ('" + pPreferencial + "'), precioOcasional = ('" + pOcasional + "'), precioPublico = ('" + pPublico + "'), imgPath = ('" + img + "') where productos.id =" + req.body.id;
+    var nombre = req.body.product.nombreProducto;
+    var descr = req.body.product.descripcion;
+    var tipo = req.body.product.tipoProducto;
+    var pPreferencial = req.body.product.precioPreferencial;
+    var pOcasional = req.body.product.precioOcasional;
+    var pPublico = req.body.product.precioPublico;
+    console.log(req.body.product)
+    var sql = "update productos set nombreProducto = ('" + nombre + "'), descripcion = ('" + descr + "'), tipoProducto = ('" + tipo + "'), precioPreferencial = ('" + pPreferencial + "'), precioOcasional = ('" + pOcasional + "'), precioPublico = ('" + pPublico + "') where productos.id =" + req.body.product.id;
 
     return sequelize.query(sql, { type: sequelize.QueryTypes.UPDATE })
         .then(resultado => res.status(201).send(resultado))
@@ -354,15 +346,22 @@ app.post('/deleteProducto', function (req, res) {
         .catch(error => res.status(400).send(error))
 })
 
-app.post('/deleteDireccion', function (req, res) {
-    return sequelize.query("delete from direccionCliente where direccionCliente.id = " + req.body.id, { type: sequelize.QueryTypes.DELETE })
-        .then(resultado => res.status(201).send({ "result": "ok" }))
-        .catch(error => res.status(400).send(error))
-})
 
-app.post('/deleteCliente', function (req, res) {
-    return sequelize.query("delete from clientes where clientes.id = " + req.body.id, { type: sequelize.QueryTypes.DELETE })
-        .then(resultado => res.status(201).send({ "result": "ok" }))
+app.post('/deleteUser', function (req, res) {
+    //req.body.userId
+    //req.body.direccionId
+    var sql = "delete from clientes where clientes.id = " + req.body.userId;
+
+    return sequelize.query(sql, { type: sequelize.QueryTypes.DELETE })
+        .then(res1 => {
+            var sql = "delete from direccionCliente where direccionCliente.id = " + req.body.direccionId;
+
+            return sequelize.query(sql, { type: sequelize.QueryTypes.DELETE })
+                .then(res2 => {
+                    res.json(res2)
+                })
+                .catch(error => res.status(401).send(error))
+        })
         .catch(error => res.status(400).send(error))
 })
 

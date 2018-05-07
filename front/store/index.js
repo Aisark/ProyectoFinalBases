@@ -3,27 +3,24 @@ import Vuex from 'vuex'
 const createStore = () => {
     return new Vuex.Store({
         state: {
-            token: "",
-            idUser: -1,
-            typeUser: -1,
+            //stores the products 
             products: [],
-            userInfo: [],
+            //stores all the info of the user
+            userInfo: {},
+            //stores the products in the shopping cart
             shoppingCart: [],
-            ordersAndProducts: []
+            //stores all orders and products
+            ordersAndProducts: [],
+            //stores the info of all users: for admin only
+            users: []
         },
         //modification of values
         mutations: {
             destroySession(state, payload){
-                state.token = ""
-                state.idUser = -1
-                state.typeUser = -1
                 state.userInfo = []
-
             },
-            setUserCredentials(state, payload) {
-                state.token = payload.token
-                state.idUser = payload.idUser
-                state.typeUser = payload.typeUser
+            setClients(state,payload){
+                state.users = payload.users
             },
             setProducts(state, payload) {
                 state.products = payload.products

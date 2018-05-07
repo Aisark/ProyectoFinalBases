@@ -52,29 +52,24 @@
             async registerUser() {
                 await axios({
                     method: "post",
-                    url: "http://localhost:8080/validate",
+                    url: "http://localhost:8080/registraInfo",
                     data: {
-                        "mail": this.email,
-                        "pwd": this.pwd
+                        "nombre": this.nombre,
+                        "celular": this.celular,
+                        "email": this.email,
+                        "pwd": this.pwd,
+                        "estado": this.estado,
+                        "municipio": this.municipio,
+                        "ciudad": this.ciudad,
+                        "codigoPostal": this.codigoPostal,
+                        "colonia": this.colonia,
+                        "calle": this.calle
                     }
                 })
                     .then(function (response) {
                         console.log("Response:")
                         console.log(response.data.token)
-                        this.$store.commit({
-                            type: 'setUserCredentials',
-                            token: response.data.token,
-                            idUser: response.data.idUser,
-                            typeUser: response.data.typeUser
-                        })
-                        this.token = response.data.token
-                        if (this.$store.state.typeUser == 4) {
-                            this.$router.push({ name: 'login-adminDashboard' })
-                        }
-                        else {
-                            this.$router.push({ name: 'login-dashboard' })
-                        }
-
+                        this.$router.push({ name: 'login' })
                     }.bind(this))
                     .catch(function (error) {
                         console.log("Error:")

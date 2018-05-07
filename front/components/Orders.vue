@@ -48,7 +48,7 @@
                     method: "post",
                     url: "http://localhost:8080/getOrdersAndShipments",
                     data: {
-                        "id": this.$store.state.idUser
+                        "id": this.$store.state.userInfo.id
                     }
                 })
                     .then(function (response) {

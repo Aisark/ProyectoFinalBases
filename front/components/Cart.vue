@@ -67,7 +67,7 @@
         },
         methods: {
             definePrice(prod){
-                var userInfo = this.$store.state.typeUser;
+                var userInfo = this.$store.state.userInfo.tipoCliente;
                 console.log(prod)
                 if(userInfo == 1){
                     return prod.product.precioPreferencial;
@@ -143,7 +143,7 @@
                 }
 
                 var packet = {
-                    "idUser": this.$store.state.idUser,
+                    "idUser": this.$store.state.userInfo.id,
                     "costoTotal": this.calculateTotalOfCart(),
                     "productos": resultingProducts
                 }
@@ -154,7 +154,7 @@
                     method: "post",
                     url: "http://localhost:8080/generaPedido",
                     data: {
-                        "idUser": this.$store.state.idUser,
+                        "idUser": this.$store.state.userInfo.id,
                         "costoTotal": this.calculateTotalOfCart(),
                         "productos": resultingProducts
                     }

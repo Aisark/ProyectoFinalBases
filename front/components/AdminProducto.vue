@@ -54,7 +54,7 @@
                             <div class="btn-group">
                                                                            
                                     <div>
-                                        <button class="btn btn-warning round padding mr-2">
+                                        <button class="btn btn-warning round padding mr-2" @click="editarProducto(product.id)">
                                             Editar
                                         </button>   
                                     </div>                                    
@@ -98,10 +98,14 @@
                 async getProducts() {
                     await axios({
                         method: "get",
-                        url: "http://localhost:8080/selectProductos"
+                        url: "http://localhost:8080/getProducts"
                     })
                         .then(function (response) {
                             this.products = response.data
+                            this.$store.commit({
+                                type: 'setProducts',
+                                products: this.products
+                            })
                         }.bind(this))
                         .catch(function (error) {
                             console.log("Error:")
@@ -113,6 +117,14 @@
                 },
                 crearProducto(){
                     this.$router.push({name: 'login-adminDashboard-adminProducts-agregaProducto'})
+                },
+                editarProducto(id){
+                    this.$router.push({
+                        name: 'login-adminDashboard-adminProducts-editaProducto',
+                        params: {
+                            "editaProducto": id
+                        }
+                    })
                 },                
                 async deleteProducto(id) {
                 await axios({

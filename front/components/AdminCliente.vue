@@ -1,5 +1,5 @@
 <template>
-        <div>            
+        <div>           
             <div class="container-fluid">
                 <table class="table">
                 <thead class="thead-dark">
@@ -32,21 +32,19 @@
                             {{ client.email }}
                         </td>
                         <td>
-
-                            <div class="btn-group">
-                                    
+                         <div class="btn-group">
                                     <div>
-                                        <button class="btn btn-info round padding mr-2">
-                                            Ver dirección
+                                        <button class="btn btn-info round padding mr-2" @click="getClient(client.id)">
+                                            Ver detalles
                                         </button>
                                     </div>                                        
                                     <div>
-                                        <button class="btn btn-warning round padding mr-2">
+                                        <button class="btn btn-warning round padding mr-2" @click="editClient(client.id)">
                                             Editar
                                         </button>   
                                     </div>                                    
                                     <div>
-                                        <button class="btn btn-danger round padding mr-2">
+                                        <button class="btn btn-danger round padding mr-2" @click="deleteClient(client.id,client.direccionID)">
                                             Eliminar
                                         </button>
                                     </div>                                                                                                                                                
@@ -74,7 +72,7 @@
         
         export default {
             created() {
-                this.getClients()
+                this.getUsers()
             },
             data: function(){
                 return {
@@ -82,35 +80,50 @@
                 }
             },
             methods: {
-                async getClients() {
+                async getUsers() {
                     await axios({
                         method: "get",
-                        url: "http://localhost:8080/selectClientes"
+                        url: "http://localhost:8080/getUsers"
                     })
                         .then(function (response) {
                             this.clients = response.data
+                            this.$store.commit({
+                                type: 'setClients',
+                                users: this.clients
+                            })
                         }.bind(this))
                         .catch(function (error) {
                             console.log("Error:")
                             console.log(error)
                         })
                 },
-
-                async getDireccion() {
+                getClient(id) {
+                   this.$router.push({ name: 'login-adminDashboard-adminClients-clientInfo', params: { clientInfo: id } })
+                },
+                editClient(id) {
+                   this.$router.push({ name: 'login-adminDashboard-adminClients-editaCliente', params: { editaCliente: id } })
+                },
+                async deleteClient(userId,direccionId) {
                     await axios({
-                        method: "get",
-                        url: "http://localhost:8080/selectDirecciones"
+                        method: "post",
+                        url: "http://localhost:8080/deleteUser",
+                        data: {
+                            userId: userId,
+                            direccionId: direccionId
+                        }
                     })
                         .then(function (response) {
-                            this.clients = response.data
+                            console.log("response")
+                            console.log(response)
+                            this.getUsers()
+                            
                         }.bind(this))
                         .catch(function (error) {
                             console.log("Error:")
                             console.log(error)
                         })
-                },
-
-            
+                }
+                
             }
         }
     </script>

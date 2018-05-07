@@ -7,18 +7,21 @@ const _829b1b6a = () => import('../pages/register/index.vue' /* webpackChunkName
 const _2260f3d2 = () => import('../pages/login/index.vue' /* webpackChunkName: "pages/login/index" */).then(m => m.default || m)
 const _7a1e181c = () => import('../pages/login/dashboard/index.vue' /* webpackChunkName: "pages/login/dashboard/index" */).then(m => m.default || m)
 const _12223cda = () => import('../pages/login/adminDashboard/index.vue' /* webpackChunkName: "pages/login/adminDashboard/index" */).then(m => m.default || m)
-const _14c76464 = () => import('../pages/login/dashboard/orders/index.vue' /* webpackChunkName: "pages/login/dashboard/orders/index" */).then(m => m.default || m)
 const _5da2786e = () => import('../pages/login/dashboard/cart/index.vue' /* webpackChunkName: "pages/login/dashboard/cart/index" */).then(m => m.default || m)
-const _16b459ea = () => import('../pages/login/adminDashboard/adminClients/index.vue' /* webpackChunkName: "pages/login/adminDashboard/adminClients/index" */).then(m => m.default || m)
 const _5705d582 = () => import('../pages/login/dashboard/userInfo/index.vue' /* webpackChunkName: "pages/login/dashboard/userInfo/index" */).then(m => m.default || m)
-const _6ec0739a = () => import('../pages/login/adminDashboard/adminEnvios/index.vue' /* webpackChunkName: "pages/login/adminDashboard/adminEnvios/index" */).then(m => m.default || m)
+const _14c76464 = () => import('../pages/login/dashboard/orders/index.vue' /* webpackChunkName: "pages/login/dashboard/orders/index" */).then(m => m.default || m)
 const _66fc9e0d = () => import('../pages/login/dashboard/products/index.vue' /* webpackChunkName: "pages/login/dashboard/products/index" */).then(m => m.default || m)
+const _6ec0739a = () => import('../pages/login/adminDashboard/adminEnvios/index.vue' /* webpackChunkName: "pages/login/adminDashboard/adminEnvios/index" */).then(m => m.default || m)
 const _4d700ed2 = () => import('../pages/login/adminDashboard/adminProducts/index.vue' /* webpackChunkName: "pages/login/adminDashboard/adminProducts/index" */).then(m => m.default || m)
+const _16b459ea = () => import('../pages/login/adminDashboard/adminClients/index.vue' /* webpackChunkName: "pages/login/adminDashboard/adminClients/index" */).then(m => m.default || m)
 const _fdb8e350 = () => import('../pages/login/dashboard/userInfo/editInfo.vue' /* webpackChunkName: "pages/login/dashboard/userInfo/editInfo" */).then(m => m.default || m)
 const _9b697904 = () => import('../pages/login/adminDashboard/adminProducts/agregaProducto.vue' /* webpackChunkName: "pages/login/adminDashboard/adminProducts/agregaProducto" */).then(m => m.default || m)
+const _1a688d7b = () => import('../pages/login/adminDashboard/adminClients/_editaCliente.vue' /* webpackChunkName: "pages/login/adminDashboard/adminClients/_editaCliente" */).then(m => m.default || m)
 const _6fdb04d4 = () => import('../pages/login/adminDashboard/adminEnvios/_orderDetails.vue' /* webpackChunkName: "pages/login/adminDashboard/adminEnvios/_orderDetails" */).then(m => m.default || m)
-const _86607d22 = () => import('../pages/login/dashboard/orders/_orderDetails.vue' /* webpackChunkName: "pages/login/dashboard/orders/_orderDetails" */).then(m => m.default || m)
 const _7544bfb5 = () => import('../pages/login/dashboard/products/_id.vue' /* webpackChunkName: "pages/login/dashboard/products/_id" */).then(m => m.default || m)
+const _118a8723 = () => import('../pages/login/adminDashboard/adminProducts/_editaProducto.vue' /* webpackChunkName: "pages/login/adminDashboard/adminProducts/_editaProducto" */).then(m => m.default || m)
+const _86607d22 = () => import('../pages/login/dashboard/orders/_orderDetails.vue' /* webpackChunkName: "pages/login/dashboard/orders/_orderDetails" */).then(m => m.default || m)
+const _1be4cf31 = () => import('../pages/login/adminDashboard/adminClients/_clientInfo.vue' /* webpackChunkName: "pages/login/adminDashboard/adminClients/_clientInfo" */).then(m => m.default || m)
 const _51279b7d = () => import('../pages/index.vue' /* webpackChunkName: "pages/index" */).then(m => m.default || m)
 
 
@@ -100,19 +103,9 @@ export function createRouter () {
 			name: "login-adminDashboard"
 		},
 		{
-			path: "/login/dashboard/orders",
-			component: _14c76464,
-			name: "login-dashboard-orders"
-		},
-		{
 			path: "/login/dashboard/cart",
 			component: _5da2786e,
 			name: "login-dashboard-cart"
-		},
-		{
-			path: "/login/adminDashboard/adminClients",
-			component: _16b459ea,
-			name: "login-adminDashboard-adminClients"
 		},
 		{
 			path: "/login/dashboard/userInfo",
@@ -120,9 +113,9 @@ export function createRouter () {
 			name: "login-dashboard-userInfo"
 		},
 		{
-			path: "/login/adminDashboard/adminEnvios",
-			component: _6ec0739a,
-			name: "login-adminDashboard-adminEnvios"
+			path: "/login/dashboard/orders",
+			component: _14c76464,
+			name: "login-dashboard-orders"
 		},
 		{
 			path: "/login/dashboard/products",
@@ -130,9 +123,19 @@ export function createRouter () {
 			name: "login-dashboard-products"
 		},
 		{
+			path: "/login/adminDashboard/adminEnvios",
+			component: _6ec0739a,
+			name: "login-adminDashboard-adminEnvios"
+		},
+		{
 			path: "/login/adminDashboard/adminProducts",
 			component: _4d700ed2,
 			name: "login-adminDashboard-adminProducts"
+		},
+		{
+			path: "/login/adminDashboard/adminClients",
+			component: _16b459ea,
+			name: "login-adminDashboard-adminClients"
 		},
 		{
 			path: "/login/dashboard/userInfo/editInfo",
@@ -145,9 +148,24 @@ export function createRouter () {
 			name: "login-adminDashboard-adminProducts-agregaProducto"
 		},
 		{
+			path: "/login/adminDashboard/adminClients/:editaCliente",
+			component: _1a688d7b,
+			name: "login-adminDashboard-adminClients-editaCliente"
+		},
+		{
 			path: "/login/adminDashboard/adminEnvios/:orderDetails",
 			component: _6fdb04d4,
 			name: "login-adminDashboard-adminEnvios-orderDetails"
+		},
+		{
+			path: "/login/dashboard/products/:id",
+			component: _7544bfb5,
+			name: "login-dashboard-products-id"
+		},
+		{
+			path: "/login/adminDashboard/adminProducts/:editaProducto",
+			component: _118a8723,
+			name: "login-adminDashboard-adminProducts-editaProducto"
 		},
 		{
 			path: "/login/dashboard/orders/:orderDetails",
@@ -155,9 +173,9 @@ export function createRouter () {
 			name: "login-dashboard-orders-orderDetails"
 		},
 		{
-			path: "/login/dashboard/products/:id",
-			component: _7544bfb5,
-			name: "login-dashboard-products-id"
+			path: "/login/adminDashboard/adminClients/:clientInfo",
+			component: _1be4cf31,
+			name: "login-adminDashboard-adminClients-clientInfo"
 		},
 		{
 			path: "/",

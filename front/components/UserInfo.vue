@@ -77,6 +77,7 @@
 <script>
     import axios from 'axios'
     export default {
+        props: ['idUser'],
         data: function () {
             return {
                 usrInfo: ""
@@ -91,21 +92,18 @@
                     method: "post",
                     url: "http://localhost:8080/getUserInfo",
                     data: {
-                        "id": this.$store.state.idUser
+                        "id": this.idUser
                         //"id": 1
                     }
                 })
                     .then(function (response) {
-                        this.$store.commit({
-                            type: 'setUserInfo',
-                            userInfo: response.data
-                        })
+                        this.usrInfo = response.data[0]
                     }.bind(this))
                     .catch(function (error) {
                         console.log("Error:")
                         console.log(error)
                     })
-                this.usrInfo = this.$store.getters.getUserInfo
+                 
             },
             editInfo() {
                 this.$router.push({ name: 'login-dashboard-userInfo-editInfo', params:{usrInfo:this.usrInfo}})

@@ -31,6 +31,25 @@
                                 <input type="text" class="form-control" v-model="usrInfo.email">
                             </td>
                         </tr>
+                        <tr>
+                            <td>Tipo de Usuario</td>
+                            <td>
+                                <select v-model="usrInfo.tipoCliente" class="form-control">
+                                    <option value="1">
+                                        Preferencial
+                                    </option>
+                                    <option value="2">
+                                        Ocasional
+                                    </option>
+                                    <option value="3">
+                                        Público
+                                    </option>
+                                    <option value="4">
+                                        Admin
+                                    </option>
+                                </select>
+                            </td>                        
+                        </tr>
                     </tbody>
                     <thead>
                         <tr>
@@ -117,7 +136,7 @@
                     }
                 })
                     .then(function (response) {
-                        this.$router.push({ name: 'login-dashboard-userInfo' })
+                        this.$router.push({ name: 'login-adminDashboard-adminClients' })
                     }.bind(this))
                     .catch(function (error) {
                         console.log("Error:")

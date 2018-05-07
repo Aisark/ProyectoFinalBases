@@ -2,7 +2,7 @@
     <div>
         Info de usuario
         <NavBarUser :show="true"/>
-        <UserInfo/>
+        <UserInfo :idUser="this.$store.state.userInfo.id"/>
     </div>
 </template>
 

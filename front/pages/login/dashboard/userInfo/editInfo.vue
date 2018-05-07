@@ -2,7 +2,7 @@
     <div>
         Productos
         <NavBarUser :show="true" />
-        <EditUserInfo/>
+        <EditUserInfo :idUser="this.$store.state.userInfo.id"/>
     </div>
 </template>
 

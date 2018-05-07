@@ -2,7 +2,7 @@
     <div class="bColor">
         <!-- named route -->
         <!--nuxt-link :to="{ name: 'dashboard', params: { usrToken: email }}"></nuxt-link-->
-        <div class="logBox" >
+        <div class="logBox">
             <img src="~/static/loginImg/user.png" class="user">
             <h2>¡Ingresa aquí!</h2>
             <p>Email</p>
@@ -22,8 +22,7 @@
         data: function () {
             return {
                 email: "",
-                pwd: "",
-                token: ""
+                pwd: ""
             }
         },
         methods: {
@@ -38,21 +37,21 @@
                 })
                     .then(function (response) {
                         console.log("Response:")
-                        console.log(response.data.token)
+                        console.log(response.data.userInfo)
                         this.$store.commit({
-                            type: 'setUserCredentials',
-                            token: response.data.token,
-                            idUser: response.data.idUser,
-                            typeUser: response.data.typeUser
+                            type: 'setUserInfo',
+                            userInfo: response.data.userInfo
                         })
-                        this.token = response.data.token
-                        if(this.$store.state.typeUser == 4){
-                            this.$router.push({name: 'login-adminDashboard'})
+
+                        console.log(this.$store.state.userInfo)
+
+                        if (this.$store.state.userInfo.tipoCliente == 4) {
+                            this.$router.push({ name: 'login-adminDashboard-adminEnvios' })
                         }
-                        else{
-                            this.$router.push({ name: 'login-dashboard'})
+                        else {
+                            this.$router.push({ name: 'login-dashboard-products' })
                         }
-                        
+
                     }.bind(this))
                     .catch(function (error) {
                         console.log("Error:")
