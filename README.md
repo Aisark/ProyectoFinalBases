@@ -1,4 +1,4 @@
 # ProyectoFinalBases
-Tabatha Acosta
-Carlos Parrodi
+Tabatha Acosta,
+Carlos Parrodi,
 Juan Carlos
